@@ -1,8 +1,6 @@
 package com.example.weatherapp
 
 import android.app.Activity
-import android.content.Intent
-import android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -31,14 +29,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.weatherapp.ui.theme.WeatherAppTheme
 
-class LoginActivity : ComponentActivity() {
+class RegisterActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             WeatherAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    LoginPage(
+                    RegisterPage(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -48,18 +46,27 @@ class LoginActivity : ComponentActivity() {
 }
 
 @Composable
-fun LoginPage(modifier: Modifier = Modifier) {
+fun RegisterPage(modifier: Modifier = Modifier) {
+    var nome by rememberSaveable { mutableStateOf("")}
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
+    var repeatpassword by rememberSaveable { mutableStateOf("") }
     val activity = LocalActivity.current as Activity
     Column(
         modifier = modifier.padding(24.dp).fillMaxSize().fillMaxWidth(fraction = 0.9f),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+
+    ){
         Text(
-            text = "Bem-vindo/a!",
-            fontSize = 24.sp
+            text = "Realize seu Cadastro:",
+            fontSize = 20.sp
+        )
+        OutlinedTextField(
+            value = nome,
+            label = { Text(text = "Digite seu nome") },
+            modifier = modifier,
+            onValueChange = { nome = it }
         )
         OutlinedTextField(
             value = email,
@@ -74,44 +81,38 @@ fun LoginPage(modifier: Modifier = Modifier) {
             onValueChange = { password = it },
             visualTransformation = PasswordVisualTransformation()
         )
+        OutlinedTextField(
+            value = repeatpassword,
+            label = { Text(text = "Repita sua senha") },
+            modifier = modifier,
+            onValueChange = { repeatpassword = it },
+            visualTransformation = PasswordVisualTransformation()
+        )
         Row(
             modifier = modifier.padding(12.dp).fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
-        ) {
+        ){
             Button(
                 onClick = {
-
-                Toast.makeText(activity, "Login OK!",
-                    Toast.LENGTH_LONG).show()
-
-                activity.startActivity(
-                    Intent(activity, MainActivity::class.java).setFlags(
-                        FLAG_ACTIVITY_SINGLE_TOP
-                    )
-                )
-                          },
-                enabled = email.isNotEmpty() && password.isNotEmpty()
-            ) {
-                Text("Login")
-            }
-            Button(
-                onClick = { email = ""; password = "" }
-            ) {
-                Text("Limpar")
-            }
-            Button(
-                onClick = {
-
-                    activity.startActivity(
-                        Intent(activity, RegisterActivity::class.java).setFlags(
-                            FLAG_ACTIVITY_SINGLE_TOP
-                        )
-                    )
+                    Toast.makeText(activity,"Registro Completo",Toast.LENGTH_LONG).show()
+                    activity.finish()
                 },
-                enabled = true
+                    enabled = nome.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && password == repeatpassword
             ) {
                 Text("Registrar")
             }
+
+            Button(
+                onClick = {
+                    nome = ""; email = ""; password = ""; repeatpassword = "";
+                },
+                enabled = nome.isNotEmpty() || email.isNotEmpty() || password.isNotEmpty()
+
+            ) {
+                Text("Limpar")
+            }
+
         }
+
     }
 }

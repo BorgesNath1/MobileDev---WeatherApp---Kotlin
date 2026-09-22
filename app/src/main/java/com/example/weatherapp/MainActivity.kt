@@ -1,6 +1,5 @@
 package com.example.weatherapp
 
-import android.R
 import android.app.Activity
 import android.os.Bundle
 import android.widget.Toast
@@ -20,8 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.LineHeightStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.weatherapp.ui.theme.WeatherAppTheme
 
@@ -64,7 +61,7 @@ fun HomePage(modifier : Modifier = Modifier) {
                     activity.finish()
                 }, enabled = true
             ){
-
+                Text("Sair")
             }
         }
 
