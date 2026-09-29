@@ -104,7 +104,7 @@ fun RegisterPage(modifier: Modifier = Modifier) {
 
             Button(
                 onClick = {
-                    nome = ""; email = ""; password = ""; repeatpassword = "";
+                    nome = ""; email = ""; password = ""; repeatpassword = ""
                 },
                 enabled = nome.isNotEmpty() || email.isNotEmpty() || password.isNotEmpty()
 
