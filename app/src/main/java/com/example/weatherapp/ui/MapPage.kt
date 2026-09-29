@@ -21,11 +21,11 @@ fun MapPage(modifier: Modifier = Modifier.Companion){
     val activity = LocalActivity.current as Activity
     Column(
         modifier = modifier.fillMaxSize()
-            .background(Color.Magenta)
+            .background(Color.Green)
             .wrapContentSize(Alignment.Center),
     ) {
         Text(
-            text = "Favoritas",
+            text = "Mapas",
             fontWeight = FontWeight.Bold,
             color = Color.White,
             modifier = modifier.align(CenterHorizontally),
