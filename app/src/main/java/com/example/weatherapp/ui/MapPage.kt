@@ -15,9 +15,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import com.example.weatherapp.MainViewModel
 
 @Composable
-fun MapPage(modifier: Modifier = Modifier.Companion){
+fun MapPage(modifier: Modifier = Modifier.Companion,
+            viewModel: MainViewModel
+){
+    val cityList = viewModel.cities
     val activity = LocalActivity.current as Activity
     Column(
         modifier = modifier.fillMaxSize()
