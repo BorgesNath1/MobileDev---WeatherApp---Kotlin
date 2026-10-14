@@ -46,8 +46,9 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             val currentRout = navController.currentBackStackEntryAsState()
             val showButton = currentRout.value?.destination?.hasRoute(Route.List::class) == true
-            val launcher = rememberLauncherForActivityResult(contract =
-            ActivityResultContracts.RequestPermission(), onResult = {})
+            val launcher = rememberLauncherForActivityResult(
+                contract = ActivityResultContracts.RequestPermission(),
+                onResult = {})
             WeatherAppTheme {
                 if (showDialog) CityDialog(
                     onDismiss = {showDialog = false},
