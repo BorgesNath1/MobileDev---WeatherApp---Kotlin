@@ -33,6 +33,8 @@ import com.example.weatherapp.ui.nav.BottomNavItem
 import com.example.weatherapp.ui.nav.MainNavHost
 import com.example.weatherapp.ui.nav.Route
 import com.example.weatherapp.ui.theme.WeatherAppTheme
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -61,7 +63,8 @@ class MainActivity : ComponentActivity() {
                             title = { Text("Bem-vindo/a!") },
                             actions = {
                                 IconButton(
-                                    onClick = { finish() }
+                                    onClick = { Firebase.auth.signOut()
+                                        finish() }
                                 ) {
                                     Icon(
                                         imageVector = Icons.AutoMirrored.Filled.ExitToApp,
