@@ -12,8 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import com.example.weatherapp.MainViewModel
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapUiSettings
@@ -48,9 +46,10 @@ fun MapPage(modifier: Modifier = Modifier.Companion,
         properties = MapProperties(isMyLocationEnabled = hasLocationPermission),
         uiSettings = MapUiSettings(myLocationButtonEnabled = true)
     ){
-        val recife = remember { MarkerState(LatLng(-8.05, -34.9)) }
-        val caruaru = remember { MarkerState(LatLng(-8.27, -35.98)) }
-        val joaoPessoa = remember { MarkerState(LatLng(-7.12, -34.84))}
+        // VARIÁVEIS DE MOCKUP DESATIVADAS - FUNÇÃO DEPRECIADA NA ATIVIDADE DA LISTA 6 - PARTE 2 - LISTA DE CIDADES CARREGA DIRETO DO FIREBASE
+//        val recife = remember { MarkerState(LatLng(-8.05, -34.9)) }
+//        val caruaru = remember { MarkerState(LatLng(-8.27, -35.98)) }
+//        val joaoPessoa = remember { MarkerState(LatLng(-7.12, -34.84))}
 
         viewModel.cities.forEach {
             if (it.location != null){
@@ -61,39 +60,41 @@ fun MapPage(modifier: Modifier = Modifier.Companion,
                     snippet = "${it.location}")
             }
         }
-
-        Marker (
-            state = recife,
-            title = "recife",
-            snippet = "Marcador em recife",
-            icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)
-        )
-        Marker (
-            state = caruaru,
-            title = "caruaru",
-            snippet = "Marcador em caruaru",
-            icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)
-        )
-        Marker (
-            state = joaoPessoa,
-            title = "João Pessoa",
-            snippet = "Marcador em João Pessoa",
-            icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)
-        )
-    }
-
-//    Column(
-//        modifier = modifier.fillMaxSize()
-//            .background(Color.Green)
-//            .wrapContentSize(Alignment.Center),
-//    ) {
-//        Text(
-//            text = "Mapas",
-//            fontWeight = FontWeight.Bold,
-//            color = Color.White,
-//            modifier = modifier.align(CenterHorizontally),
-//            textAlign = TextAlign.Center,
-//            fontSize = 20.sp
+//
+        // VARIÁVEIS DE MOCKUP DESATIVADAS - FUNÇÃO DEPRECIADA NA ATIVIDADE DA LISTA 6 - PARTE 2 - LISTA DE CIDADES CARREGA DIRETO DO FIREBASE
+//        Marker (
+//            state = recife,
+//            title = "recife",
+//            snippet = "Marcador em recife",
+//            icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)
 //        )
-//    }
+//        Marker (
+//            state = caruaru,
+//            title = "caruaru",
+//            snippet = "Marcador em caruaru",
+//            icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)
+//        )
+//        Marker (
+//            state = joaoPessoa,
+//            title = "João Pessoa",
+//            snippet = "Marcador em João Pessoa",
+//            icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)
+//        )
+    }
 }
+
+////    Column(
+////        modifier = modifier.fillMaxSize()
+////            .background(Color.Green)
+////            .wrapContentSize(Alignment.Center),
+////    ) {
+////        Text(
+////            text = "Mapas",
+////            fontWeight = FontWeight.Bold,
+////            color = Color.White,
+////            modifier = modifier.align(CenterHorizontally),
+////            textAlign = TextAlign.Center,
+////            fontSize = 20.sp
+////        )
+////    }
+//}

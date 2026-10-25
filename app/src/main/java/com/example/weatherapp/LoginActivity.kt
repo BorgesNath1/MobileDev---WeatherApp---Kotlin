@@ -82,16 +82,20 @@ fun LoginPage(modifier: Modifier = Modifier) {
         ) {
             Button(
                 onClick = {
-
-                Toast.makeText(activity, "Login OK!",
-                    Toast.LENGTH_LONG).show()
-
-                activity.startActivity(
-                    Intent(activity, MainActivity::class.java).setFlags(
-                        FLAG_ACTIVITY_SINGLE_TOP
-                    )
-                )
-                          },
+                    Firebase.auth.signInWithEmailAndPassword(email,password)
+                        .addOnCompleteListener(activity) { task ->
+                            if (task.isSuccessful){
+                                activity.startActivity(
+                                    Intent(activity, MainActivity::class.java).setFlags(
+                                        FLAG_ACTIVITY_SINGLE_TOP
+                                    )
+                                )
+                                Toast.makeText(activity, "Login OK!", Toast.LENGTH_LONG).show()
+                            } else {
+                                Toast.makeText(activity, "Login Falhou!", Toast.LENGTH_LONG).show()
+                            }
+                        }
+                  },
                 enabled = email.isNotEmpty() && password.isNotEmpty()
             ) {
                 Text("Login")
@@ -103,19 +107,11 @@ fun LoginPage(modifier: Modifier = Modifier) {
             }
             Button(
                 onClick = {
-                    Firebase.auth.signInWithEmailAndPassword(email,password)
-                        .addOnCompleteListener(activity) { task ->
-                            if (task.isSuccessful){
-                                activity.startActivity(
-                                    Intent(activity, RegisterActivity::class.java).setFlags(
-                                        FLAG_ACTIVITY_SINGLE_TOP
-                                    )
-                                )
-                                Toast.makeText(activity, "Login OK!", Toast.LENGTH_LONG).show()
-                            } else {
-                                Toast.makeText(activity, "Login Falhou!", Toast.LENGTH_LONG).show()
-                            }
-                        }
+                    activity.startActivity(
+                        Intent(activity, RegisterActivity::class.java).setFlags(
+                            FLAG_ACTIVITY_SINGLE_TOP
+                        )
+                    )
                 },
                 enabled = true
             ) {

@@ -18,7 +18,3 @@ fun User.toFBUser() : FBUser {
     fbUser.email = this.email
     return fbUser
 }
-
-fun FBUser.toUser() : User {
-    return User(name!!, email!!)
-}

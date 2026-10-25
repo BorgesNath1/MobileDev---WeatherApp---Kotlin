@@ -8,7 +8,7 @@ import com.google.firebase.firestore.firestore
 
 class FBDatabase {
     interface Listener {
-        fun onUserLoaded(User: FBUser)
+        fun onUserLoaded(user: FBUser)
         fun onUserSignOut()
         fun onCityAdded(city: FBCity)
         fun onCityUpdated(city: FBCity)
@@ -28,7 +28,7 @@ class FBDatabase {
                 return@addAuthStateListener
             }
 
-            val refCurrUser = db.collection("user").document(auth.currentUser!!.uid)
+            val refCurrUser = db.collection("users").document(auth.currentUser!!.uid)
             refCurrUser.get().addOnSuccessListener {
                 it.toObject(FBUser::class.java)?.let { user ->
                     listener?.onUserLoaded(user)
@@ -60,10 +60,20 @@ class FBDatabase {
         db.collection("users").document(uid+"").set(user);
     }
 
-    fun FBDatabase.add(city: FBCity){
-        if (auth.currentUser == null || city.equals(null)) throw RuntimeException("Operação não permitida")
+    fun add(city: FBCity){
+        if (auth.currentUser == null || city.name == null) throw RuntimeException("Operação não permitida")
         val uid = auth.currentUser!!.uid
-        db.collection("user").document(uid).collection("cities").document(city.name+"").set(city)
+        db.collection("users").document(uid).collection("cities").document(city.name+"").set(city)
+    }
+
+    fun setListener(listener: Listener? = null){
+        this.listener = listener
+    }
+
+    fun remove(city: FBCity){
+        if (auth.currentUser == null || city.name == null) throw RuntimeException("Operação não permitida")
+        val uid = auth.currentUser!!.uid
+        db.collection("users").document(uid).collection("cities").document(city.name+"").delete()
     }
 }
 
