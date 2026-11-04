@@ -38,7 +38,6 @@ class MainViewModel (private val db: FBDatabase) : ViewModel(), FBDatabase.Liste
     override fun onCityAdded(city: FBCity) { _cities.add(city.toCity())}
     override fun onCityUpdated(city: FBCity) { }
     override fun onCityRemoved(city: FBCity) { _cities.remove(city.toCity())}
-
 }
 
 // FUNÇÃO DEPRECIADA NA ATIVIDADE DA LISTA 6 - PARTE 2 - LISTA DE CIDADES CARREGA DIRETO DO FIREBASE

@@ -65,8 +65,7 @@ class MainActivity : ComponentActivity() {
                             title = { Text("Bem-vindo/a, ${viewModel.user?.name ?: "Visitante!"}") },
                             actions = {
                                 IconButton(
-                                    onClick = { Firebase.auth.signOut()
-                                        finish() }
+                                    onClick = { Firebase.auth.signOut() }
                                 ) {
                                     Icon(
                                         imageVector = Icons.AutoMirrored.Filled.ExitToApp,
