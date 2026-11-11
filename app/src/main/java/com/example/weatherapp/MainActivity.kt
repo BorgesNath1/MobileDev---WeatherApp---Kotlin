@@ -30,6 +30,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.weatherapp.api.WeatherService
 import com.example.weatherapp.db.fb.FBDatabase
 import com.example.weatherapp.ui.CityDialog
+import com.example.weatherapp.ui.CityDialogViewModel
+import com.example.weatherapp.ui.CityDialogViewModelFactory
 import com.example.weatherapp.ui.nav.BottomNavBar
 import com.example.weatherapp.ui.nav.BottomNavItem
 import com.example.weatherapp.ui.nav.MainNavHost
@@ -54,12 +56,15 @@ class MainActivity : ComponentActivity() {
                 onResult = {})
             val fbDB = remember { FBDatabase() }
             val weatherService = remember { WeatherService() }
+            val cityDialogViewModel : CityDialogViewModel = viewModel(factory = CityDialogViewModelFactory(weatherService))
             val viewModel : MainViewModel = viewModel (factory = MainViewModelFactory(fbDB, weatherService))
             WeatherAppTheme {
                 if (showDialog) CityDialog(
                     onDismiss = {showDialog = false},
                     onConfirm = { city -> if (city.isNotBlank()) viewModel.addCity(city)
-                    showDialog = false}
+                    showDialog = false
+                    },
+                    viewModel = cityDialogViewModel
                 )
                 Scaffold(
                     topBar = {
@@ -89,6 +94,9 @@ class MainActivity : ComponentActivity() {
                         if(showButton) {
                             FloatingActionButton(
                                 onClick = {
+                                    cityDialogViewModel.query = ""
+                                    //IMPLEMENTADO PARA LIMPAR O BUFFER DA LISTA DE SUGESTÕES (FORA DO ESCOPO DA PRÁTICA)
+                                    cityDialogViewModel.clearSuggestions()
                                     showDialog = true
                                 }) {
                                 Icon(
