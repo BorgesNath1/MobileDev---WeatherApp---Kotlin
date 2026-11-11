@@ -38,9 +38,7 @@ fun MapPage(modifier: Modifier = Modifier.Companion,
     GoogleMap(
         modifier = modifier.fillMaxSize(),
         onMapClick = {
-            val lat = "%.2f".format(it.latitude)
-            val lng = "%.2f".format(it.longitude)
-            viewModel.add("cidade@$lat:$lng", location = it)
+            viewModel.addCity(location = it)
         },
         cameraPositionState = camPosState,
         properties = MapProperties(isMyLocationEnabled = hasLocationPermission),
