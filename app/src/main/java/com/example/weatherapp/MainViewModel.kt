@@ -1,21 +1,27 @@
 package com.example.weatherapp
 
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.weatherapp.api.WeatherService
+import com.example.weatherapp.api.toWeather
 import com.example.weatherapp.db.fb.FBCity
 import com.example.weatherapp.db.fb.FBDatabase
 import com.example.weatherapp.db.fb.FBUser
 import com.example.weatherapp.db.fb.toFBCity
 import com.example.weatherapp.model.City
 import com.example.weatherapp.model.User
+import com.example.weatherapp.model.Weather
 import com.google.android.gms.maps.model.LatLng
 
 class MainViewModel (private val db: FBDatabase, private val service: WeatherService) : ViewModel(), FBDatabase.Listener {
-    private val _cities = mutableStateListOf<City>()
+    private val _cities = mutableStateMapOf<String, City>()
     private val _user = mutableStateOf<User?> (null)
+
+    private val _weather = mutableStateMapOf<String, Weather>()
 
     init{
         db.setListener(this)
@@ -23,8 +29,12 @@ class MainViewModel (private val db: FBDatabase, private val service: WeatherSer
 
     val user : User?
         get() = _user.value
+    //depreciado na prática 8
+    //val cities get() = _cities.toList()
 
-    val cities get() = _cities.toList()
+    val cities: List<City> by derivedStateOf {
+        _cities.values.toList().sortedBy { it.name }
+    }
 
     fun remove(city: City) {
         db.remove(city.toFBCity())
@@ -53,9 +63,24 @@ class MainViewModel (private val db: FBDatabase, private val service: WeatherSer
 
     override fun onUserLoaded(user: FBUser) { _user.value = user.toUser()}
     override fun onUserSignOut() { }
-    override fun onCityAdded(city: FBCity) { _cities.add(city.toCity())}
-    override fun onCityUpdated(city: FBCity) { }
-    override fun onCityRemoved(city: FBCity) { _cities.remove(city.toCity())}
+    override fun onCityAdded(city: FBCity) { _cities[city.name!!] = city.toCity()}
+    override fun onCityUpdated(city: FBCity) {
+        _cities.remove(city.name)
+        _cities[city.name!!] = city.toCity() }
+    override fun onCityRemoved(city: FBCity) { _cities.remove(city.name)}
+
+    fun weather(name: String) = _weather.getOrPut(name){
+        loadWeather(name)
+        Weather.LOADING
+    }
+
+    private fun loadWeather(name: String){
+        service.getWeather(name){
+            apiWeather -> apiWeather?.let {
+                _weather[name] = apiWeather.toWeather()
+        }
+        }
+    }
 }
 
 

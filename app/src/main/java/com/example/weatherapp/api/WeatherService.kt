@@ -53,4 +53,30 @@ class WeatherService {
     fun cancelAll(){
         searches.forEach { it.cancel() }
     }
+
+    private fun <T> enqueue(call: Call<T?>, onResponse: ((T?) -> Unit)? = null){
+        call.enqueue(object : Callback<T?> {
+            override fun onResponse(
+                call: Call<T?>,
+                response: Response<T?>
+            ) {
+                val obj: T? = response.body()
+                onResponse?.invoke(obj)
+            }
+
+            override fun onFailure(call: Call<T?>, t: Throwable) {
+                Log.w("WeatherApp WARNING", "" + t.message)
+            }
+        }
+    )}
+
+    fun getWeather(name: String,onResponse: (APICurrentWeather) -> Unit){
+        val call: Call<APICurrentWeather?> = weatherAPI.weather(name)
+        enqueue(call){
+            //tratamento de null obrigatório sugerido pela IDE
+            if (it != null) {
+                onResponse.invoke(it)
+            }
+        }
+    }
 }
