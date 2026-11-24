@@ -2,7 +2,7 @@ package com.example.weatherapp.model
 
 import android.graphics.Bitmap
 
-class Weather(
+data class Weather(
     val date: String,
     val desc: String,
     val temp: Double,

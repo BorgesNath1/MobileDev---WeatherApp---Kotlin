@@ -56,7 +56,7 @@ class MainActivity : ComponentActivity() {
                 contract = ActivityResultContracts.RequestPermission(),
                 onResult = {})
             val fbDB = remember { FBDatabase() }
-            val weatherService = remember { WeatherService() }
+            val weatherService = remember { WeatherService(this) }
             val cityDialogViewModel : CityDialogViewModel = viewModel(factory = CityDialogViewModelFactory(weatherService))
             val viewModel : MainViewModel = viewModel (factory = MainViewModelFactory(fbDB, weatherService))
             WeatherAppTheme {
