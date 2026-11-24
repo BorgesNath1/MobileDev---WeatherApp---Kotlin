@@ -1,8 +1,6 @@
 package com.example.weatherapp.ui
 
 import android.app.Activity
-import android.content.Intent
-import android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP
 import android.widget.Toast
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.clickable
@@ -26,7 +24,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.weatherapp.MainActivity
 import com.example.weatherapp.MainViewModel
 import com.example.weatherapp.model.City
 import com.example.weatherapp.model.Weather
@@ -56,14 +53,7 @@ fun ListPage(modifier: Modifier = Modifier,
                         Toast.LENGTH_LONG).show()
                 },
                 onClick = {
-                    Toast.makeText(activity, "Exibindo detalhes Cidade",
-                        Toast.LENGTH_LONG).show()
-
-                    activity.startActivity(
-                        Intent(activity, MainActivity::class.java).setFlags(
-                            FLAG_ACTIVITY_SINGLE_TOP
-                        )
-                    )
+                    viewModel.city = city.name
                 }
             )
         }
