@@ -17,10 +17,12 @@ import com.example.weatherapp.model.City
 import com.example.weatherapp.model.Forecast
 import com.example.weatherapp.model.User
 import com.example.weatherapp.model.Weather
+import com.example.weatherapp.ui.nav.Route
 import com.google.android.gms.maps.model.LatLng
 
 class MainViewModel (private val db: FBDatabase, private val service: WeatherService) : ViewModel(), FBDatabase.Listener {
     private val _cities = mutableStateMapOf<String, City>()
+
     private val _user = mutableStateOf<User?> (null)
 
     private val _weather = mutableStateMapOf<String, Weather>()
@@ -29,6 +31,7 @@ class MainViewModel (private val db: FBDatabase, private val service: WeatherSer
 
     private var _city = mutableStateOf<String?>(null)
 
+    private var _page = mutableStateOf<Route>(Route.Home)
 
 
     init{
@@ -41,12 +44,17 @@ class MainViewModel (private val db: FBDatabase, private val service: WeatherSer
 
     val user : User?
         get() = _user.value
+
     //depreciado na prática 8
     //val cities get() = _cities.toList()
 
     val cities: List<City> by derivedStateOf {
         _cities.values.toList().sortedBy { it.name }
     }
+
+    var page: Route
+        get() = _page.value
+        set(tmp) { _page.value = tmp}
 
     fun remove(city: City) {
         db.remove(city.toFBCity())
