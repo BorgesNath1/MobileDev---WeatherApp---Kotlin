@@ -2,6 +2,7 @@ package com.example.weatherapp.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -33,13 +34,13 @@ fun HomePage(modifier : Modifier = Modifier,
              viewModel: MainViewModel) {
     Column(
         modifier = modifier.fillMaxSize()
-            .background(Color.Blue)
-            .wrapContentSize(Alignment.Center),
+            .background(Color.LightGray)
+//            .wrapContentSize(Alignment.Center),
     ) {
         if(viewModel.city == null){
             Column(
                 modifier = modifier.fillMaxSize()
-                    .background(Color.Blue)
+                    .background(Color.LightGray)
                     .wrapContentSize(Alignment.Center)
             ){
                 Text(
@@ -113,12 +114,21 @@ fun ForecastItem(forecast: Forecast,
             error = painterResource(id = R.drawable.loading),
             contentDescription = "Imagem"
         )
-        Column{
+        Column(
+            modifier = modifier.fillMaxWidth().padding(12.dp)
+                .clickable( onClick = { onClick(forecast)}),
+            verticalArrangement = Arrangement.Center
+        )
+        {
+            Text(modifier = modifier, text = forecast.weather, fontSize = 20.sp)
             Text(modifier = modifier, text = forecast.date, fontSize = 20.sp)
             Spacer(modifier = modifier.size(12.dp))
-            Text(modifier = modifier, text = "Min:$tempMin°C", fontSize = 16.sp)
-            Spacer(modifier = modifier.size(12.dp))
-            Text(modifier = modifier, text = "Max:$tempMax°C", fontSize = 16.sp)
+            Row {
+                Text(modifier = modifier, text = "Min:$tempMin°C", fontSize = 16.sp)
+                Spacer(modifier = modifier.size(5.dp))
+                Text(modifier = modifier, text = "Max:$tempMax°C", fontSize = 16.sp)
+            }
+
         }
     }
 }
